@@ -1,30 +1,40 @@
-#include <stdio.h>
+#include <bits/stdc++.h>
+// #define DEBUG
 
-int marks_counter_clockwise (int actual, int next)
+using namespace std;
+
+int UPPER_BOUND = 39;
+
+int clockwise (int start, int end)
 {
-    if (next > actual)
-        return next - actual;
-    else
-        return (40 - actual) + next;
+    if (start > end) return start - end;
+    else if (start == end) return 0;
+    return start + (UPPER_BOUND - end + 1);
 }
 
-int marks_clockwise  (int actual, int next)
+int counter_clockwise (int start, int end)
 {
-    if (next < actual)
-        return actual - next;
-    else
-        return (40 - next) + actual;
+    if (end > start) return end - start;
+    else if (start == end)  return 0;
+    return (UPPER_BOUND - start) + end + 1; 
 }
 
 int main ()
 {
-    int dial, n1, n2, n3, marks_to_degrees = 360/40;
-    while (scanf("%d %d %d %d", &dial, &n1, &n2, &n3), 
-                                dial != 0, n1 != 0, n2 != 0, n3 != 0)
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    #ifdef DEBUG
+        freopen("in.txt","r",stdin);
+    #endif
+    int start, num1, num2, num3, posToDegrees = 360/40;
+    cin  >> start >> num1 >> num2 >> num3;
+    while (start || num1 || num2 || num3)
     {
-        printf("%d\n", 1080 + 
-            (marks_clockwise(dial, n1)+ marks_counter_clockwise(n1, n2) + marks_clockwise(n2,n3)) * marks_to_degrees
-        );
+        int total_positions = clockwise(start, num1) +
+                            counter_clockwise(num1, num2) +
+                            clockwise(num2, num3);
+        //cout << "total positions " << total_positions << "\n"; 
+        cout << 1080 + (total_positions) * posToDegrees << "\n";
+        cin  >> start >> num1 >> num2 >> num3;
     }
-    
 }
